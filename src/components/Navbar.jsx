@@ -6,6 +6,7 @@ import Badge, { badgeClasses } from "@mui/material/Badge";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { mobile, tablet } from "./responsive";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // Styled Components
 const Nav = styled.nav`
@@ -88,27 +89,29 @@ const Navbar = () => {
 			<Right>
 				<MenuItem>Register</MenuItem>
 				<MenuItem>Sign In</MenuItem>
-				<MenuItem>
-					<Badge
-						badgeContent={quantity}
-						color="primary"
-						style={{ fontSize: "10px" }}
-						sx={{
-							[`& .${badgeClasses.badge}`]: {
-								minWidth: "auto",
-								width: "17px",
-								height: "17px",
-								borderRadius: "50%",
-								fontSize: "0.65rem",
-							},
-						}}
-					>
-						<ShoppingBagOutlinedIcon
-							style={{ fontSize: "1.1rem" }}
-							color="action"
-						/>
-					</Badge>
-				</MenuItem>
+				<Link to="/cart">
+					<MenuItem>
+						<Badge
+							badgeContent={quantity}
+							color="primary"
+							style={{ fontSize: "10px" }}
+							sx={{
+								[`& .${badgeClasses.badge}`]: {
+									minWidth: "auto",
+									width: "17px",
+									height: "17px",
+									borderRadius: "50%",
+									fontSize: "0.65rem",
+								},
+							}}
+						>
+							<ShoppingBagOutlinedIcon
+								style={{ fontSize: "1.1rem" }}
+								color="action"
+							/>
+						</Badge>
+					</MenuItem>
+				</Link>
 			</Right>
 		</Nav>
 		// </Container>
