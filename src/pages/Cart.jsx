@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
@@ -9,7 +9,11 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { mobile, tablet } from "../components/responsive";
 import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
 
+const KEY = process.env.REACT_APP_STRIPE;
+
+/***** Styled components *****/
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -201,7 +205,13 @@ const Button = styled.button`
 
 const Cart = () => {
 	const cart = useSelector((state) => state.cart);
-	console.log(cart);
+	const [stripeToken, setStripeToken] = useState(null);
+
+	const onToken = (token) => {
+		setStripeToken(token);
+	};
+
+	console.log(stripeToken);
 
 	return (
 		<Container>
@@ -268,7 +278,20 @@ const Cart = () => {
 							<SummaryItemText>Total</SummaryItemText>
 							<SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
 						</SummaryItem>
-						<Button>Proceed To Checkout →</Button>
+						{cart.total !== 0 && (
+							<StripeCheckout
+								name="J&L Shop"
+								image="https://i.ibb.co/bNkfsTc/j-l.png"
+								billingAddress
+								shippingAddress
+								description={`Your total is $${cart.total}`}
+								amount={cart.total * 100}
+								token={onToken}
+								stripeKey={KEY}
+							>
+								<Button>Proceed To Checkout →</Button>
+							</StripeCheckout>
+						)}
 					</Summary>
 				</Bottom>
 			</Wrapper>
